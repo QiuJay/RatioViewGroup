@@ -5,14 +5,15 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 /**
  * Created by jay on 2017/6/28 下午1:48
  *
  * @author jay
- * @version 1.0.0
+ * @version 1.0.1
  */
-public class RatioViewGroup extends ViewGroup {
+public class RatioViewGroup extends FrameLayout {
 
     private static final int WIDTH = 0;
     private static final int HEIGHT = 1;
@@ -32,22 +33,6 @@ public class RatioViewGroup extends ViewGroup {
     }
 
     @Override
-    public void addView(View child, int index, LayoutParams params) {
-        if (getChildCount() > 0) {
-            throw new IllegalStateException("RatioViewGroup can host only one direct child");
-        }
-        super.addView(child, index, params);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        View childAt = getChildAt(0);
-        if (childAt != null) {
-            childAt.layout(l, t, r, b);
-        }
-    }
-
-    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mWidthRatio != -1 && mHeightRatio != -1) {
             // width/height = mWidthRatio/mHeightRatio
@@ -59,7 +44,7 @@ public class RatioViewGroup extends ViewGroup {
                         throw new IllegalStateException("layout_width value is not exactly");
                     }
                     final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.round(mHeightRatio / mWidthRatio * widthSize), heightMode);
+                    heightMeasureSpec = MeasureSpec.makeMeasureSpec(Math.round(mHeightRatio / mWidthRatio * widthSize), widthMode);
                     break;
                 case HEIGHT:
 

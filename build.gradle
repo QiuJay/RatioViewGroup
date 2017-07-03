@@ -21,4 +21,4 @@ android {
 
 dependencies {
 }
-
+apply from: "bintrayUpload.gradle"
